@@ -124,8 +124,8 @@ export default function LoginPage() {
             {error && <Typography color="error">{errorMessage}</Typography>}
 
           </Box>
+          <Copyright site='www.avanade.com.br' sx={{mt:8, mb:4}}></Copyright>
         </Box>
-        <Copyright site='www.avanade.com.br' sx={{mt:8, mb:4}}></Copyright>
       </Container>
     </ThemeProvider>
   )
