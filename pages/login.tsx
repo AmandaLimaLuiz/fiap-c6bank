@@ -1,11 +1,21 @@
-import { Box, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from '@mui/material';
+import React, {useState, useEffect, FormEvent} from 'react'
+import { Box, Button, Checkbox, Container, createTheme, CssBaseline, FormControlLabel, TextField, ThemeProvider, Typography, Stack,Snackbar } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Link from 'next/link';
-import React from 'react'
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 type CopyProps = {
   site: string;
-  sx?: object;
+  sx?: object,
 }
+
 
 function Copyright(props:CopyProps){
   return (
@@ -19,20 +29,100 @@ function Copyright(props:CopyProps){
   )
 }
 
+
 const theme = createTheme();
 
 export default function LoginPage() {
+
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [email, setEmail] = useState<string | undefined | null | FormDataEntryValue>();
+  const [password, setPassword] = useState<string | undefined | null | FormDataEntryValue>();
+  const [open, setOpen] = useState<boolean>(false);
+  
+  /* const [contador, setContador] = useState<number>(0);
+  const [nome, setNome] = useState<string>("  nomes dos participantes"); */
+
+  //executa a primeira vez após carregar a página e após o render
+  // e executa também a cada alteração de estado
+  /* useEffect(()=>{
+    if(contador == 0){
+      document.title = `Executando useEffect a primeira vez ${contador}`;
+    }else{
+      document.title = `Executando useEffect a cada alteração ${contador}`;
+    }
+    //setContador(contador + 1);
+  },[contador]) */
+  
+  /* useEffect(()=>{
+    if(nome.length > 0 && nome == nome.toUpperCase()){
+      console.log(`Executando useEffect mudando para maiúsculo ${nome}`);
+    }else if(nome.length > 0 && nome == nome.toLowerCase()){
+      console.log(`Executando useEffect mudando para minúsculo ${nome}`);
+    }
+  },[nome]) */
+
+  useEffect(()=>{
+    if(password && password.length <6){
+      setError(true);
+      setErrorMessage('A senha deve ter no mínimo 6 caracteres')
+    }else if(password){
+      setError(false);
+      setErrorMessage('');
+
+      //enviar o formulário para o servidor...
+      setOpen(true);
+    }
+  },[password]);
+
+  const handleClose = () =>{
+    setOpen(false);
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
+    event.preventDefault(); //previne o comportamento padão, que sera carregar a página.
+    const data = new FormData(event.currentTarget);
+
+    setEmail(data.get('email'));
+    setPassword(data.get('password'));
+
+    //console.log(data.get('email'));
+    //console.log(data.get('password'));
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
         <CssBaseline/>
-        <Box sx={{mt:8, display: 'flex', flexDirection:'column', alignItens:'center'}}>
+
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Usuario autenticado com sucesso!...aguarde...
+        </Alert>
+        </Snackbar>
+
+        <Box sx={{mt:8, display: 'flex', flexDirection:'column', alignItems:'center' }}>
           <Typography component='h1' variant='h5'>
             Login
           </Typography>
-          <Box component='form' onSubmit={(e)=>{console.log('enviou')}}>
-            <TextField margin='normal' required fullWidth id='email' label='Digite o email' name='email' autoComplete='email' autoFocus/>
-            <TextField margin='normal' required fullWidth id='password' type='password' label='Digite a sua senha' name='password' autoComplete='current-password' autoFocus/>
+          <Box component='form' onSubmit={handleSubmit}>
+            {/* <button onClick={()=>setContador(contador+1)}>Muda o contador</button>
+            {'O useState contador vale: ' + contador}
+             */}
+            {/* <br></br>
+            <br></br>
+            <Button sx={{mr:2}} variant="contained" onClick={()=>setNome(nome.toUpperCase())}>Letra maiúscula</Button>
+            <Button variant="contained" onClick={()=>setNome(nome.toLowerCase())}>Letra minúscula</Button>
+            {nome} */}
+    
+            <TextField margin='normal' required fullWidth id='email' label='&#x1F47B; Digite o email' name='email' autoComplete='email' autoFocus/>
+            <TextField className='password' margin='normal' required fullWidth id='password' type='password' label='&#x1F440; Digite a sua senha' name='password' autoComplete='current-password' autoFocus/>
+
+            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Lembrar de mim"/>
+            <Button type='submit' fullWidth variant='contained' sx={{mt:3, mb:2}}>Entrar</Button>
+            
+            {error && <Typography color="error">{errorMessage}</Typography>}
+
           </Box>
         </Box>
         <Copyright site='www.avanade.com.br' sx={{mt:8, mb:4}}></Copyright>
