@@ -28,7 +28,7 @@ export default function Profile() {
   return (
     <ProfileContainer>
         <AvatarContainer>
-            <Avatar alt='Amanda Lima' src='https://media-exp1.licdn.com/dms/image/D4D03AQHeUqjaGcftCQ/profile-displayphoto-shrink_400_400/0/1661459350012?e=1671667200&v=beta&t=ZEQftEEEGLEoUflmRmKb5v3q5VVqQF7-C6pPg41Q08k' sx={{width:100, height:100}} />
+            <Avatar alt='Amanda Lima' src='https://avatars.githubusercontent.com/u/77978576?v=4' sx={{width:100, height:100}} />
                 <h2>Amanda Lima</h2>
                 <h4>Full Stack developer</h4>
         </AvatarContainer>
