@@ -17,7 +17,7 @@ export default function Balance() {
       <span>R$</span>
             <strong>190.000,00</strong>
             <Link href={'#'}>
-                <a>Mostrar</a>                            
+                <a> (put Icon)</a>                            
             </Link>
       </div>
     </BalanceContainer>
