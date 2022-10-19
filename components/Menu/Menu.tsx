@@ -8,9 +8,23 @@ const MenuContainer = styled.div`
     font-family: sans-serif;
     background-color: #242424;
     ul{
+      width: 100%;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      overflow-y: auto;
+      &::-webkit-scrollbar-thumb{
+        background-color: #3d3c3c;
+        outline: 1px solid #777777;
+        border-radius: 5px;
+      }
+      &::-webkit-scrollbar{
+        width: 6px;
+      }
     }li{
+      width: 100%;
       list-style: none;
       display: flex;
       line-height: 60px;

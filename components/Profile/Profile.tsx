@@ -12,8 +12,14 @@ const ProfileContainer = styled.div`
     line-height: 2px;
     background-color: #242424;
     width: 100%;
-    height: 450px;
-    padding: 2%;
+    padding: 3%;
+    h2, h3{
+      margin: 1px;
+      padding-top:2%;
+      font-weight:500;
+    }h2{
+      margin-top: 10%;
+    }
 `;
 const AvatarContainer = styled.div`
     display: flex;

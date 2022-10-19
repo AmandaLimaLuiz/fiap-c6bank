@@ -7,8 +7,9 @@ import Profile from '../Profile'
 const SideBarContainer = styled.section`
   display: flex;
   flex-direction: column;
-  width: 360px;
+  width: 300px;
   background-color: #242424;
+  box-shadow: 1px 1px 1px 1px rgba(61, 60, 60, 0.498);
 `
 
 export default function SideBar() {
