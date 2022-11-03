@@ -6,7 +6,7 @@ const db:Array<TypeDb> = [
     type:'pix',
     amount:100.21,
     date:'2020-01-01',
-    description:'pizza galera',
+    description:'pizza',
     operation:'credit'
 },
 {
