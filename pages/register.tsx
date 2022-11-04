@@ -8,7 +8,7 @@ const theme= createTheme();
 
 export default function LoginPage() {
 
-const [name, setName] = useState <string |  FormDataEntryValue>(""); 
+const [name, setName] = useState <string | FormDataEntryValue | null>(""); 
 const [error, setError] = useState< boolean >(false);
 const [errorMenssage, setErrorMessage] = useState<string >('');
 const [email, setEmail] = useState<string |undefined | null| FormDataEntryValue >();
