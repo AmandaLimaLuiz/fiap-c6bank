@@ -1,4 +1,5 @@
 import { Box, Button, Checkbox, Container, createTheme, CssBaseline, FormControlLabel, TextField, ThemeProvider, Typography} from '@mui/material';
+import axios from 'axios';
 import React,{useState, useEffect, FormEvent} from 'react';
 import Copyright from '../components/utils/Copyright';
 import Snackbar from '../components/utils/Snackbar';
@@ -21,9 +22,20 @@ useEffect(()=>{
     setError(false);
     setErrorMessage('');
     // enviar o formulario para o servidor
-    setOpen(true);
+    // setOpen(true);
+    axios.post('http://localhost:3000/auth/login',{
+      login: email,
+      password
+    }).then((response)=>{
+      console.log(response);
+      if(response.status == 200){
+        setOpen(true);
+      }
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
-}),[password];
+},[password]);
 
 const handleSubmit= (event: FormEvent<HTMLFormElement>)=> {
   // Previne o comportamento padrao do formulario, que eria recarreagr a pagina
@@ -49,7 +61,7 @@ const handleSubmit= (event: FormEvent<HTMLFormElement>)=> {
           </Box> 
         </Box>
         <Copyright site='www.avanade.com.br' sx= {{mt:8, mb:4}} />
-        {open && <Snackbar open={open} hide={4} message=" Ususario logado com sucesso... Aguarde..."/>}
+        {open && <Snackbar open={open} hide={4} message=" Usuário logado com sucesso... Aguarde..."/>}
       </Container>
     </ThemeProvider>
   )

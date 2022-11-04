@@ -2,12 +2,13 @@ import { Box, Button, Checkbox, Container, createTheme, CssBaseline, FormControl
 import React,{useState, useEffect, FormEvent} from 'react';
 import Copyright from '../components/utils/Copyright';
 import Snackbar from '../components/utils/Snackbar';
+import axios from 'axios';
 
 const theme= createTheme();
 
 export default function LoginPage() {
 
-const [name, setName] = useState <string>(""); 
+const [name, setName] = useState <string |  FormDataEntryValue>(""); 
 const [error, setError] = useState< boolean >(false);
 const [errorMenssage, setErrorMessage] = useState<string >('');
 const [email, setEmail] = useState<string |undefined | null| FormDataEntryValue >();
@@ -22,7 +23,19 @@ useEffect(()=>{
     setError(false);
     setErrorMessage('');
     // enviar o formulario para o servidor
-    setOpen(true);
+    //setOpen(true);
+    axios.post('http://localhost:3000/users',{
+      name,
+      email,
+      password
+    }).then((response)=>{
+      console.log(response);
+      if(response.status == 200){
+        setOpen(true);
+      }
+    }).catch((error)=>{
+      console.log(error);
+    })
   }
 }),[password];
 
@@ -30,6 +43,7 @@ const handleSubmit= (event: FormEvent<HTMLFormElement>)=> {
   // Previne o comportamento padrao do formulario, que iria recarregar a pagina
   event.preventDefault();
   const data= new FormData(event.currentTarget);
+  setName(data.get('name'));
   setEmail(data.get('email'));
   setPassword(data.get('password'));
 }
@@ -44,8 +58,8 @@ const handleSubmit= (event: FormEvent<HTMLFormElement>)=> {
           <Box component="form" onSubmit= {handleSubmit}>
             <TextField margin="normal" required fullWidth id="name" label="Informe seu nome" name="name" autoComplete="name" autoFocus/>
             <TextField margin="normal" required fullWidth id="email" label="Digite o email" name="email" autoComplete="email" autoFocus/>
-            <TextField margin="normal" required fullWidth id="password" label="Digite a senha" name="password" autoComplete="password" autoFocus/>
-            <TextField margin="normal" required fullWidth id="password" label="Confirme a senha" name="password" autoComplete="password" autoFocus/>
+            <TextField margin="normal" required fullWidth id="password" label="Digite a senha" name="password" autoComplete="password" type="password" autoFocus/>
+            <TextField margin="normal" required fullWidth id="cpassword" label="Confirme a senha" name="cpassword" autoComplete="cpassword"  type="password" autoFocus/>
               <FormControlLabel control={<Checkbox value="Remember" color="primary" />} label= "Lembrar de mim"/>
               <Button type='submit' fullWidth variant="contained" sx={{mt:3, mb:2}}>Cadastar</Button>
               {error && <Typography color="error">{errorMenssage}</Typography>}
